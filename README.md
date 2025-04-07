@@ -47,7 +47,7 @@ project/
 │
 ├── requirements.txt                   # Python package dependencies
 ├── README.md                          # Project documentation (this file)
-
+```bash
 ---
 
 ## Usage Instructions
