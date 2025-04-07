@@ -3,9 +3,9 @@ import MetaTrader5 as mt5
 import pandas as pd
 
 # Define your MT5 account credentials
-ACCOUNT = 912 #90278154      
-PASSWORD = '' #"Inazuma@69" 
-SERVER = '' #"LiteFinance-MT5-Demo"  
+ACCOUNT = '' # Your MetaTrader 5 account number      
+PASSWORD = '' # Your MetaTrader 5 account password
+SERVER = '' # Your MetaTrader 5 server (e.g., 'LiteFinance-MT5-Demo') 
 
 #  Initialize MT5 connection
 if not mt5.initialize():
