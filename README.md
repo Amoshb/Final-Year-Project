@@ -1,3 +1,4 @@
+
 # EUR/USD Forex Forecasting System  
 **Student ID:** 001183434  
 **Final Year Project – University Submission**
@@ -48,6 +49,7 @@ project/
 ├── requirements.txt                   # Python package dependencies
 ├── README.md                          # Project documentation (this file)
 ```
+
 ---
 
 ## Usage Instructions
@@ -62,6 +64,14 @@ pip install -r requirements.txt
 
 > **Note:** If you have a compatible GPU, it is recommended to install TensorFlow with GPU support for faster model training.
 > MetaTrader 5 terminal must be installed and configured properly.
+> Also, make sure to enter your MT5 account credentials in the `collect_ohlcv_data.py` script:
+>
+> ```python
+> # Add your login credentials
+> login = 12345678
+> password = 'yourpassword'
+> server = 'YourBroker-Server'
+> ```
 
 ### 2. Prepare the Environment
 
@@ -128,8 +138,64 @@ python model_eval_test.py
 
 ---
 
+## 🔧 Customisation: Essential Code References for Running from Scratch
+
+When running the project from scratch or changing the dataset, make sure to review and update the following code sections:
+
+### 1. Update MetaTrader 5 Data Collection (`collect_ohlcv_data.py`)
+
+```python
+symbol = "EURUSD_cl"
+timeframe = mt5.TIMEFRAME_H1
+start_date = datetime(2024, 8, 23)
+end_date = datetime(2025, 1, 23)
+```
+
+### 2. Update Economic Events Data Collection (`collect_fundamental_data.py`)
+
+```python
+start_input.send_keys("08/23/2024")
+end_input.send_keys("01/23/2025")
+```
+
+### 3. Update News Sentiment Data Collection (`collect_news_sentiment_data.py`)
+
+```python
+base_url = "https://www.dailyforex.com/currencies/eur/usd"
+page_count = 1
+max_pages = 30
+```
+
+### 4. Update Feature Selection (`feature_generation.py`)
+
+```python
+features = price_features + fibonacci_features
+target_column = "Close"
+```
+
+### 5. Update Model Configurations (`ensemble_forex_trading.py`)
+
+```python
+models_config = {
+    "fib_72.h5": features_config["price"] + features_config["fibonacci"],
+    "all_technical_indicators.h5": features_config["price"] + features_config["ema_macd"] + features_config["fibonacci"] + features_config["stochastic"] + features_config["obv"] + features_config["bollinger"] + features_config["atr"],
+    "ema_macd_fibo_82.h5": features_config["price"] + features_config["ema_macd"] + features_config["fibonacci"],
+    ...
+}
+```
+
+### 6. Update File Paths in Feature Generation (`feature_generation.py`)
+
+```python
+ECONOMIC_FILE = "economic_calendar_data.csv"
+NEWS_FILE = "dailyforex_eurusd_news.csv"
+FOREX_FILE = "Cleaned_EURUSD60.csv"
+```
+
+---
+
 ## Notes
 
 - This project is designed for academic research purposes only and is not intended for live trading.
-- Please ensure API keys and credentials are securely managed if connecting to live data sources.
-- Any external API terms of service must be followed when scraping or using data.
+- Ensure API keys and credentials are securely managed.
+- Respect external API terms of service when scraping or using data.
