@@ -61,6 +61,7 @@ pip install -r requirements.txt
 ```
 
 > **Note:** If you have a compatible GPU, it is recommended to install TensorFlow with GPU support for faster model training.
+> **Note:** MetaTrader 5 terminal must be installed and configured properly.
 
 ### 2. Prepare the Environment
 
