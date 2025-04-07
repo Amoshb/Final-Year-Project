@@ -143,7 +143,7 @@ python model_eval_test.py
 When running the project from scratch or changing the dataset, make sure to review and update the following code sections:
 
 ### 1. Update MetaTrader 5 Data Collection (`collect_ohlcv_data.py`)
-
+Set your desired currency pair, timeframe, and date range:
 ```python
 symbol = "EURUSD_cl"
 timeframe = mt5.TIMEFRAME_H1
@@ -152,29 +152,37 @@ end_date = datetime(2025, 1, 23)
 ```
 
 ### 2. Update Economic Events Data Collection (`collect_fundamental_data.py`)
-
+Modify the scraping date range:
 ```python
 start_input.send_keys("08/23/2024")
 end_input.send_keys("01/23/2025")
 ```
 
 ### 3. Update News Sentiment Data Collection (`collect_news_sentiment_data.py`)
-
+Adjust the URL and page counter if needed:
 ```python
 base_url = "https://www.dailyforex.com/currencies/eur/usd"
 page_count = 1
-max_pages = 30
+max_pages = 30 # Adjust depending on your desired coverage
 ```
 
 ### 4. Update Feature Selection (`feature_generation.py`)
-
+Define which features to include in your model. Example setup:
 ```python
 features = price_features + fibonacci_features
 target_column = "Close"
 ```
+> 💡 **Important:**  
+> When customising your dataset and selecting features in `feature_generation.py`, make sure to **keep track of the exact order of your features**.  
+> This order **must match** the corresponding configuration inside `ensemble_forex_trading.py` under the `models_config` dictionary.  
+> 
+> Any mismatch between feature generation and model loading order will result in incorrect input for the trained models and potentially unreliable predictions.
+> 
+> ✅ **Tip:**  
+> It is recommended to write down or comment your chosen feature order while editing `feature_generation.py`, and double-check it against your model configurations before training or running the ensemble.
 
 ### 5. Update Model Configurations (`ensemble_forex_trading.py`)
-
+Ensure the model feature configurations match your selected features:
 ```python
 models_config = {
     "fib_72.h5": features_config["price"] + features_config["fibonacci"],
@@ -185,7 +193,7 @@ models_config = {
 ```
 
 ### 6. Update File Paths in Feature Generation (`feature_generation.py`)
-
+Ensure file paths match your renamed data files:
 ```python
 ECONOMIC_FILE = "economic_calendar_data.csv"
 NEWS_FILE = "dailyforex_eurusd_news.csv"
