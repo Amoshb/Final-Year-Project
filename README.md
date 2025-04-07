@@ -165,23 +165,29 @@ base_url = "https://www.dailyforex.com/currencies/eur/usd"
 page_count = 1
 max_pages = 30 # Adjust depending on your desired coverage
 ```
-
-### 4. Update Feature Selection (`feature_generation.py`)
+### 4. Update File Paths in Feature Generation (`feature_generation.py`)
+Ensure file paths match your renamed data files:
+```python
+ECONOMIC_FILE = "economic_calendar_data.csv"
+NEWS_FILE = "dailyforex_eurusd_news.csv"
+FOREX_FILE = "Cleaned_EURUSD60.csv"
+```
+### 5. Update Feature Selection (`lstm.py`)
 Define which features to include in your model. Example setup:
 ```python
 features = price_features + fibonacci_features
 target_column = "Close"
 ```
 > 💡 **Important:**  
-> When customising your dataset and selecting features in `feature_generation.py`, make sure to **keep track of the exact order of your features**.  
+> When customising your dataset and selecting features in `lstm.py`, make sure to **keep track of the exact order of your features**.  
 > This order **must match** the corresponding configuration inside `ensemble_forex_trading.py` under the `models_config` dictionary.  
 > 
 > Any mismatch between feature generation and model loading order will result in incorrect input for the trained models and potentially unreliable predictions.
 > 
 > ✅ **Tip:**  
-> It is recommended to write down or comment your chosen feature order while editing `feature_generation.py`, and double-check it against your model configurations before training or running the ensemble.
+> It is recommended to write down or comment your chosen feature order while editing `lstm.py`, and double-check it against your model configurations before training or running the ensemble.
 
-### 5. Update Model Configurations (`ensemble_forex_trading.py`)
+### 6. Update Model Configurations (`ensemble_forex_trading.py`)
 Ensure the model feature configurations match your selected features:
 ```python
 models_config = {
@@ -192,13 +198,6 @@ models_config = {
 }
 ```
 
-### 6. Update File Paths in Feature Generation (`feature_generation.py`)
-Ensure file paths match your renamed data files:
-```python
-ECONOMIC_FILE = "economic_calendar_data.csv"
-NEWS_FILE = "dailyforex_eurusd_news.csv"
-FOREX_FILE = "Cleaned_EURUSD60.csv"
-```
 
 ---
 
