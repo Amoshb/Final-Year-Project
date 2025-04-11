@@ -3,9 +3,9 @@ import MetaTrader5 as mt5
 import pandas as pd
 
 # Define your MT5 account credentials
-ACCOUNT = '' # Your MetaTrader 5 account number      
-PASSWORD = '' # Your MetaTrader 5 account password
-SERVER = '' # Your MetaTrader 5 server (e.g., 'LiteFinance-MT5-Demo') 
+ACCOUNT = '' # Your MetaTrader 5 account number (e.g. int 90278154 )     
+PASSWORD = '' # Your MetaTrader 5 account password (e.g. str 'Inazuma@12')
+SERVER = '' # Your MetaTrader 5 server (e.g., str 'LiteFinance-MT5-Demo') 
 
 #  Initialize MT5 connection
 if not mt5.initialize():
@@ -31,20 +31,22 @@ if mt5.login(ACCOUNT, password=PASSWORD, server=SERVER):
     df = pd.DataFrame(rates)
     df['time'] = pd.to_datetime(df['time'], unit='s')
     print(f"Retrieved {len(df)} bars")
-    df.rename(columns=[
-        {'time':'DateTime'},
-        {'open':'Open'},
-        {'high':'High'}, 
-        {'low':'Low'}, 
-        {'close':'Close'},
-        {'tick_volume':'Volume'}], inplace=True)
+    df.rename(columns={
+        'time': 'DateTime',
+        'open': 'Open',
+        'high': 'High',
+        'low': 'Low',
+        'close': 'Close',
+        'tick_volume': 'Volume'
+    }, inplace=True)
+
     df.drop(columns=['spread', 'real_volume'], inplace=True)
     print(df.info())
     print()
     print(df.head())
     print()
     print(df.tail())
-    df.to_csv("Cleaned_EURUSD60.csv", index=False)
+    df.to_csv("Cleaned_EURUSD60_test.csv", index=False)
 else:
     print("Login failed, check credentials!")
     mt5.shutdown()
