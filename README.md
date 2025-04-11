@@ -103,15 +103,7 @@ Activate the environment:
 (venv) PS S:\Year3stuffs\FYP\your-project-folder>
 ```
 
-### Step 3: Install Dependencies
-
-Inside the activated virtual environment, install the required libraries:
-
-```bash
-pip install -r requirements.txt
-```
-
-### Step 4: Proceed with Project Usage
+### Step 3: Proceed with Project Usage
 
 Once your environment is set up, continue with the steps in the **Usage Instructions** below to run your project!
 
