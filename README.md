@@ -51,6 +51,71 @@ project/
 ```
 
 ---
+## 📦 Download ZIP and Virtual Environment Setup
+
+If you prefer not to use Git for cloning the repository, you can also **download the project as a ZIP file** and set it up manually.
+
+### Step 1: Download the ZIP
+
+1. Go to your repository on GitHub.
+2. Click the green **"Code"** button.
+3. Select **"Download ZIP"**.
+4. Extract the ZIP to your desired location, e.g.:
+
+```
+S:\Year3stuffs\FYP\your-project-folder
+```
+
+### Step 2: Create a Virtual Environment
+
+Navigate to your extracted project folder:
+
+```bash
+cd S:\Year3stuffs\FYP\your-project-folder
+python -m venv venv
+```
+
+Activate the environment:
+
+- **PowerShell:**
+  ```bash
+  venv\Scripts\Activate.ps1
+  ```
+
+  > ⚠️ If you see "running scripts is disabled", run:
+  > ```bash
+  > Set-ExecutionPolicy -ExecutionPolicy RemoteSigned -Scope Process
+  > venv\Scripts\Activate.ps1
+  > ```
+
+- **Command Prompt:**
+  ```bash
+  venv\Scriptsctivate.bat
+  ```
+
+- **Git Bash / VSCode terminal:**
+  ```bash
+  source venv/Scripts/activate
+  ```
+
+✅ You should see:
+```
+(venv) PS S:\Year3stuffs\FYP\your-project-folder>
+```
+
+### Step 3: Install Dependencies
+
+Inside the activated virtual environment, install the required libraries:
+
+```bash
+pip install -r requirements.txt
+```
+
+### Step 4: Proceed with Project Usage
+
+Once your environment is set up, continue with the steps in the **Usage Instructions** below to run your project!
+
+---
 
 ## Usage Instructions
 
