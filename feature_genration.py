@@ -4,7 +4,7 @@ import torch
 from tqdm import tqdm
 from transformers import AutoTokenizer, AutoModelForSequenceClassification, pipeline
 
-# ============ CONFIG =============
+# CONFIGURATION
 ECONOMIC_FILE = "economic_calendar_data.csv"
 NEWS_FILE = "dailyforex_eurusd_news.csv"
 FOREX_FILE = "Cleaned_EURUSD60.csv"
@@ -19,11 +19,11 @@ FIB_LEVELS = [0.236, 0.382, 0.5, 0.618, 0.786]
 POSITIVE_INDICATORS = ["GDP", "Retail Sales", "Industrial Production", "Manufacturing PMI", "Services PMI", "Employment", "Nonfarm Payrolls", "Trade Balance"]
 INVERSE_INDICATORS = ["Unemployment Rate", "Jobless Claims", "Inflation Rate", "CPI", "PPI", "Government Debt"]
 
-# ============ DATA LOADING =============
+# DATA LOADING 
 def load_csv(file_path):
     return pd.read_csv(file_path)
 
-# ============ VALUE CONVERSION =============
+# VALUE CONVERSION
 def convert_to_number(value):
     if not isinstance(value, str):
         return value
@@ -45,7 +45,7 @@ def convert_to_number(value):
     except:
         return 0
 
-# ============ ECONOMIC CLASSIFICATION ============
+# ECONOMIC CLASSIFICATION
 def classify_event(row):
     event = row["event"].lower()
     actual, forecast, country = row["actual"], row["forecast"], row["country"]
@@ -64,7 +64,7 @@ def classify_event(row):
             return -1 if actual < forecast else 1
     return 0
 
-# ============ SENTIMENT ANALYSIS ============
+# SENTIMENT ANALYSIS 
 def apply_sentiment_model(texts):
     tokenizer = AutoTokenizer.from_pretrained(MODEL_NAME)
     model = AutoModelForSequenceClassification.from_pretrained(MODEL_NAME).to(DEVICE)
@@ -77,7 +77,7 @@ def apply_sentiment_model(texts):
     tqdm.pandas()
     return texts.progress_apply(score_fn)
 
-# ============ TECHNICAL INDICATORS ============
+# TECHNICAL INDICATORS
 def compute_indicators(df):
     for p in [5, 8, 13, 12, 26]:
         df[f'EMA_{p}'] = df['Close'].ewm(span=p, adjust=False).mean()
@@ -103,7 +103,7 @@ def rsi(df, period=14):
     df['RSI_14'] = 100 - (100 / (1 + rs))
     return df
 
-# ============ FIBONACCI =============
+# FIBONACCI 
 def find_swing_highs_lows(df, lookback=50):
     df['Swing_High'] = df['High'].rolling(lookback).max()
     df['Swing_Low'] = df['Low'].rolling(lookback).min()
@@ -129,7 +129,7 @@ def add_fibonacci_levels(df, highs, lows):
     df.fillna(method='ffill', inplace=True)
     return df
 
-# ============ MAIN PIPELINE ============
+# MAIN PIPELINE
 def main():
     # Load & filter economic data
     eco_df = load_csv(ECONOMIC_FILE)

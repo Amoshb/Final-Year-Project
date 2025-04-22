@@ -9,7 +9,7 @@ from tensorflow.keras.models import load_model
 from bayes_opt import BayesianOptimization
 from trading_singnal_analysis import main_trading
 
-# ========== MODEL CONFIGURATION ==========
+# MODEL CONFIGURATION
 features_config = {
     "sentiment_score": ["sentiment_score"],
     "ema_macd": ["EMA_5", "EMA_8", "EMA_13", "EMA_12", "EMA_26", "MACD", "Signal_Line"],
@@ -34,11 +34,11 @@ models_config = {
     "sentiment_79.h5": features_config["price"] + features_config["sentiment_score"]
 }
 
-# ========== FOREX DATA ==========
+# FOREX DATA =
 forex_df = pd.read_csv("final_merged_forex_data.csv")
 forex_df["timestamp"] = pd.to_datetime(forex_df["Datetime"])
 
-# ========== DATA SEQUENCE BUILDER ==========
+# DATA SEQUENCE BUILDER
 def prepare_sequences(df, features, target="Close", seq_length=20):
     X = df[features].values
     y = df[[target]].values
@@ -53,7 +53,7 @@ def prepare_sequences(df, features, target="Close", seq_length=20):
         y_seq.append(test_data[i+seq_length, -1])
     return np.array(X_seq), np.array(y_seq), MinMaxScaler().fit(y)
 
-# ========== PREDICTIONS ==========
+# PREDICTIONS
 def predict_with_model(model_path, features):
     model = load_model(model_path)
     X_test, _, scaler_y = prepare_sequences(forex_df.copy(), features)
@@ -62,7 +62,7 @@ def predict_with_model(model_path, features):
     predictions = model.predict(X_test)
     return scaler_y.inverse_transform(predictions).flatten()
 
-# ========== LOAD AND EVALUATE MODELS ==========
+# LOAD AND EVALUATE MODELS
 predictions_dict = {}
 
 for model_name, features in models_config.items():
@@ -76,7 +76,7 @@ for model_name, features in models_config.items():
 
 print("\n All predictions generated!")
 
-# ========== EVALUATION ==========
+# EVALUATION 
 actual_prices = forex_df["Close"].values[-len(next(iter(predictions_dict.values()))) :]
 rolling_window = 300
 rmse_values, model_scores = [], {}
@@ -103,7 +103,7 @@ print("\nSelected Best Models:")
 for m in top_models:
     print(m[0])
 
-# ========== BAYESIAN OPTIMIZATION ==========
+# BAYESIAN OPTIMIZATION 
 def objective_function(w1, w2, w3):
     weights = np.array([w1, w2, w3])
     weights /= weights.sum()
@@ -122,7 +122,7 @@ ensemble_predictions = np.average(np.array(best_predictions), axis=0, weights=be
 
 print("\n Optimized Weights:", best_weights)
 
-# ========== FINAL EVALUATION ==========
+# FINAL EVALUATION 
 ensemble_r2 = r2_score(actual_prices, ensemble_predictions)
 ensemble_mape = mean_absolute_percentage_error(actual_prices, ensemble_predictions)
 ensemble_mae = mean_absolute_error(actual_prices, ensemble_predictions)
@@ -136,7 +136,7 @@ results = pd.DataFrame({
 print("\n Ensemble Model Evaluation:")
 print(results)
 
-# ========== PLOT ==========
+# PLOT
 plt.figure(figsize=(14, 7))
 plt.plot(actual_prices, label="Actual", color="blue")
 plt.plot(ensemble_predictions, label="Predicted", color="red", linestyle="--")

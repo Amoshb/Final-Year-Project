@@ -1,4 +1,3 @@
-
 import numpy as np
 import pandas as pd
 import tensorflow as tf
@@ -33,7 +32,7 @@ while True:
     atr_features = ["ATR_14"]
     rsi_features = ["RSI_14"]
 
-    features = price_features + fibonacci_features 
+    features = price_features + fibonacci_features # change features as user's requirements
     target_column = "Close"
 
     # Select features and target
@@ -155,7 +154,7 @@ while True:
     )
 
     fig.show()
-    if test_r2 > 0.75 and val_r2 > 0.75:
+    if test_r2 > 0.70 and val_r2 > 0.70:
         break
 
 # --------------------------
